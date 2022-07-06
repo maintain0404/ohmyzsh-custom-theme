@@ -155,12 +155,18 @@ prompt_virtualenv() {
 # Status:
 # - was there an error
 # - am I root
+# - am I in docker 
+#   - https://stackoverflow.com/questions/20010199/how-to-determine-if-a-process-runs-inside-lxc-docker
+#   - https://stackoverflow.com/questions/23513045/how-to-check-if-a-process-is-running-inside-docker-container
 # - are there background jobs?
 prompt_status() {
   local -a symbols
 
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
+  if grep -sq 'docker\\lxc' /proc/1/cgroup; then
+    symbols+="🐋"
+  fi
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
@@ -178,7 +184,6 @@ prompt_aws() {
     *) prompt_segment green black "AWS: $AWS_PROFILE" ;;
   esac
 }
-
 
 # from https://medium.com/harrythegreat/oh-my-zsh-iterm2%EB%A1%9C-%ED%84%B0%EB%AF%B8%EB%84%90%EC%9D%84-%EB%8D%94-%EA%B0%95%EB%A0%A5%ED%95%98%EA%B2%8C-a105f2c01bec
 prompt_newline() {
