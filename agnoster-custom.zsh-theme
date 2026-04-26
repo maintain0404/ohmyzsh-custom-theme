@@ -135,7 +135,11 @@ prompt_git() {
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
+    
+    local git_email=$(git config user.email 2>/dev/null)
+    local user_info=""
+    [[ -n "$git_email" ]] && user_info=" 🧑 $git_email"
+    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${user_info}${vcs_info_msg_0_%% }${mode}"
   fi
 }
 
