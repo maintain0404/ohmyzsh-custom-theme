@@ -9,7 +9,7 @@
     - Branch () or detached head (➦)
     - Current branch / SHA1 in detached head state
     - Dirty working directory (±, color change)
+    - Current user email.
 4. Elevated (root) privileges (⚡) (from agnoster)
-5. If you're in docker, print (🐋).
+5. If you're in container, print (🐋).
 6. Newline after executing every command.
-  

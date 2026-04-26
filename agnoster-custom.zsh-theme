@@ -168,7 +168,7 @@ prompt_status() {
 
   [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
-  if grep -sq 'docker\lxc' /proc/1/cgroup; then
+  if [[ -f /.dockerenv ]] || [[ -f /run/.containerenv ]] || grep -sq 'docker\|lxc\|kubepods\|podman\|libpod' /proc/self/cgroup 2>/dev/null; then
     symbols+="🐋"
   fi
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
